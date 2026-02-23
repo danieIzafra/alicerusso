@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Vision | Admin Panel</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .admin-header {
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+        .admin-header h1 { color: var(--gold); }
+        
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .admin-sidebar {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .admin-menu { list-style: none; }
+        .admin-menu li { margin-bottom: 10px; }
+
+        .admin-menu button {
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-color);
+            font-family: var(--font-body);
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .admin-menu button.active, .admin-menu button:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .admin-panel { display: none; animation: fadeIn 0.4s ease; }
+        .admin-panel.active { display: block; }
+
+        /* Listas de Gerenciamento */
+        .manage-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            background: var(--surface-color);
+            border-radius: 4px;
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: #d9534f;
+            border: 1px solid #d9534f;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .btn-danger:hover {
+            background: #d9534f;
+            color: #fff;
+        }
+
+        .gallery-admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .gallery-admin-card {
+            position: relative;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+        }
+        
+        .gallery-admin-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .delete-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .gallery-admin-card:hover .delete-overlay { opacity: 1; }
+
+        .agendamento-card {
+            border-left: 4px solid var(--gold);
+            padding: 15px 20px;
+        }
+
+        /* Checkboxes customizados para os dias */
+        .day-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface-color);
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .day-checkbox-label:hover {
+            border-color: var(--gold);
+        }
+
+        @media (max-width: 768px) {
+            .admin-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <button id="theme-toggle" aria-label="Alternar Tema"><i class="fa-solid fa-moon"></i></button>
+
+    <header class="admin-header">
+        <h1>Luxe Vision | Admin</h1>
+        <p>Painel de Gerenciamento do Estúdio</p>
+    </header>
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <ul class="admin-menu">
+                <li><button class="active" onclick="switchAdminTab('panel-agendamentos', this)"><i class="fa-solid fa-calendar-check"></i> Agendamentos</button></li>
+                <li><button onclick="switchAdminTab('panel-servicos', this)"><i class="fa-solid fa-list"></i> Gerenciar Serviços</button></li>
+                <li><button onclick="switchAdminTab('panel-galeria', this)"><i class="fa-solid fa-images"></i> Gerenciar Galeria</button></li>
+                <li><button onclick="switchAdminTab('panel-horarios', this)"><i class="fa-solid fa-clock"></i> Grade & Dias</button></li>
+                <li><a href="index.html" class="btn-primary full-width" style="text-align: center; margin-top: 20px; font-size: 0.8rem;"><i class="fa-solid fa-arrow-left"></i> Ver Site</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <section id="panel-agendamentos" class="admin-panel active">
+                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Próximos Clientes</h2>
+                <div id="lista-agendamentos-admin">
+                    </div>
+            </section>
+
+            <section id="panel-servicos" class="admin-panel">
+                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Adicionar Serviço</h2>
+                <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
+                    <form id="form-servico">
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select id="servico-categoria" required>
+                                <option value="cilios">Extensão de Cílios</option>
+                                <option value="lifting">Lash Lifting & Sobrancelhas</option>
+                                <option value="fineline">Tatuagem Fineline</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nome do Serviço</label>
+                            <input type="text" id="servico-nome" required placeholder="Ex: Volume Russo">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label>Duração (ex: 2h ou 45m)</label>
+                                <input type="text" id="servico-duracao" required placeholder="Ex: 2h 30m">
+                            </div>
+                            <div class="form-group">
+                                <label>Valor</label>
+                                <input type="text" id="servico-valor" required placeholder="Ex: R$ 250">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Salvar Serviço</button>
+                    </form>
+                </div>
+
+                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Serviços Cadastrados</h2>
+                <div id="lista-servicos-admin"></div>
+            </section>
+
+            <section id="panel-galeria" class="admin-panel">
+                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Adicionar Imagem</h2>
+                <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
+                    <form id="form-galeria">
+                        <div class="form-group">
+                            <label>URL da Imagem (Link)</label>
+                            <input type="text" id="galeria-url" required placeholder="https://exemplo.com/imagem.jpg">
+                        </div>
+                        <button type="submit" class="btn-primary">Adicionar à Galeria</button>
+                    </form>
+                </div>
+
+                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Imagens Atuais</h2>
+                <div class="gallery-admin-grid" id="lista-galeria-admin"></div>
+            </section>
+
+            <section id="panel-horarios" class="admin-panel">
+                
+                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Dias de Funcionamento</h2>
+                <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
+                    <p style="margin-bottom: 15px; opacity: 0.8; font-size: 0.9rem;">Selecione os dias da semana em que o estúdio atende ao público. O calendário do cliente pulará automaticamente os dias não selecionados.</p>
+                    <div id="dias-trabalho-admin" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+                        </div>
+                    <button onclick="salvarDiasTrabalho()" class="btn-primary">Salvar Dias de Atendimento</button>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid var(--border-color); margin: 40px 0;">
+
+                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Adicionar Horário na Grade</h2>
+                <p style="margin-bottom: 20px; opacity: 0.8; font-size: 0.9rem;">Estes são os horários base. O sistema ocultará automaticamente os horários que entrarem em conflito com a duração de um serviço já agendado naquele dia.</p>
+                <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
+                    <form id="form-horario">
+                        <div class="form-group">
+                            <label>Novo Horário Base</label>
+                            <input type="time" id="novo-horario" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Adicionar à Grade</button>
+                    </form>
+                </div>
+
+                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Grade Atual</h2>
+                <div id="lista-horarios-admin" style="display: flex; gap: 15px; flex-wrap: wrap;"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
