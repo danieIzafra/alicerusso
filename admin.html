@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxe Vision | Admin Panel</title>
+    <title>Alice Russo Studio | Admin Panel</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,10 +16,10 @@
         .admin-header {
             padding: 40px 20px;
             text-align: center;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--glass-border);
             margin-bottom: 40px;
         }
-        .admin-header h1 { color: var(--gold); }
+        .admin-header h1 { color: var(--accent); }
         
         .admin-layout {
             display: grid;
@@ -28,14 +28,8 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px 80px;
-        }
-
-        .admin-sidebar {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 20px;
-            height: fit-content;
+            z-index: 1; /* Para ficar acima das esferas do fundo */
+            position: relative;
         }
 
         .admin-menu { list-style: none; }
@@ -50,28 +44,30 @@
             color: var(--text-color);
             font-family: var(--font-body);
             cursor: pointer;
-            border-radius: 2px;
+            border-radius: 8px;
             transition: all 0.3s;
         }
 
         .admin-menu button.active, .admin-menu button:hover {
-            border-color: var(--gold);
-            color: var(--gold);
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--glass-highlight);
         }
 
         .admin-panel { display: none; animation: fadeIn 0.4s ease; }
         .admin-panel.active { display: block; }
 
-        /* Listas de Gerenciamento */
         .manage-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--glass-border);
             margin-bottom: 10px;
-            background: var(--surface-color);
-            border-radius: 4px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
         .btn-danger {
@@ -80,32 +76,13 @@
             border: 1px solid #d9534f;
             padding: 8px 15px;
             cursor: pointer;
-            border-radius: 2px;
+            border-radius: 30px;
             transition: all 0.3s;
         }
         .btn-danger:hover {
             background: #d9534f;
             color: #fff;
-        }
-
-        .gallery-admin-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
-        
-        .gallery-admin-card {
-            position: relative;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            overflow: hidden;
-            aspect-ratio: 4/5;
-        }
-        
-        .gallery-admin-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(217, 83, 79, 0.3);
         }
 
         .delete-overlay {
@@ -117,29 +94,29 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 0.3s;
+            border-radius: 12px;
         }
         .gallery-admin-card:hover .delete-overlay { opacity: 1; }
 
         .agendamento-card {
-            border-left: 4px solid var(--gold);
+            border-left: 4px solid var(--accent);
             padding: 15px 20px;
         }
 
-        /* Checkboxes customizados para os dias */
         .day-checkbox-label {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: var(--surface-color);
+            background: var(--glass-bg);
             padding: 10px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
         }
         .day-checkbox-label:hover {
-            border-color: var(--gold);
+            border-color: var(--accent);
         }
 
         @media (max-width: 768px) {
@@ -151,8 +128,8 @@
     <button id="theme-toggle" aria-label="Alternar Tema"><i class="fa-solid fa-moon"></i></button>
 
     <header class="admin-header">
-        <h1>Luxe Vision | Admin</h1>
-        <p>Painel de Gerenciamento do Estúdio</p>
+        <h1>Alice Russo Studio | Admin</h1>
+        <p>Painel de Gerenciamento na Nuvem</p>
     </header>
 
     <div class="admin-layout">
@@ -169,8 +146,7 @@
         <main>
             <section id="panel-agendamentos" class="admin-panel active">
                 <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Próximos Clientes</h2>
-                <div id="lista-agendamentos-admin">
-                    </div>
+                <div id="lista-agendamentos-admin"></div>
             </section>
 
             <section id="panel-servicos" class="admin-panel">
@@ -199,10 +175,9 @@
                                 <input type="text" id="servico-valor" required placeholder="Ex: R$ 250">
                             </div>
                         </div>
-                        <button type="submit" class="btn-primary">Salvar Serviço</button>
+                        <button type="submit" class="btn-primary">Salvar na Nuvem</button>
                     </form>
                 </div>
-
                 <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Serviços Cadastrados</h2>
                 <div id="lista-servicos-admin"></div>
             </section>
@@ -215,35 +190,31 @@
                             <label>URL da Imagem (Link)</label>
                             <input type="text" id="galeria-url" required placeholder="https://exemplo.com/imagem.jpg">
                         </div>
-                        <button type="submit" class="btn-primary">Adicionar à Galeria</button>
+                        <button type="submit" class="btn-primary">Salvar na Nuvem</button>
                     </form>
                 </div>
-
                 <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Imagens Atuais</h2>
                 <div class="gallery-admin-grid" id="lista-galeria-admin"></div>
             </section>
 
             <section id="panel-horarios" class="admin-panel">
-                
                 <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Dias de Funcionamento</h2>
                 <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
-                    <p style="margin-bottom: 15px; opacity: 0.8; font-size: 0.9rem;">Selecione os dias da semana em que o estúdio atende ao público. O calendário do cliente pulará automaticamente os dias não selecionados.</p>
-                    <div id="dias-trabalho-admin" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
-                        </div>
-                    <button onclick="salvarDiasTrabalho()" class="btn-primary">Salvar Dias de Atendimento</button>
+                    <p style="margin-bottom: 15px; opacity: 0.8; font-size: 0.9rem;">Selecione os dias da semana em que o estúdio atende ao público.</p>
+                    <div id="dias-trabalho-admin" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;"></div>
+                    <button onclick="salvarDiasTrabalho()" class="btn-primary">Atualizar Dias</button>
                 </div>
 
-                <hr style="border: none; border-top: 1px solid var(--border-color); margin: 40px 0;">
+                <hr style="border: none; border-top: 1px solid var(--glass-border); margin: 40px 0;">
 
                 <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Adicionar Horário na Grade</h2>
-                <p style="margin-bottom: 20px; opacity: 0.8; font-size: 0.9rem;">Estes são os horários base. O sistema ocultará automaticamente os horários que entrarem em conflito com a duração de um serviço já agendado naquele dia.</p>
                 <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
                     <form id="form-horario">
                         <div class="form-group">
                             <label>Novo Horário Base</label>
                             <input type="time" id="novo-horario" required>
                         </div>
-                        <button type="submit" class="btn-primary">Adicionar à Grade</button>
+                        <button type="submit" class="btn-primary">Salvar na Nuvem</button>
                     </form>
                 </div>
 
@@ -252,6 +223,27 @@
             </section>
         </main>
     </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAjtgSso9KxdSR8aJmavBH-6KG8ZGzBZMY",
+        authDomain: "alice-russo.firebaseapp.com",
+        projectId: "alice-russo",
+        storageBucket: "alice-russo.firebasestorage.app",
+        messagingSenderId: "350151712509",
+        appId: "1:350151712509:web:14cc9ecb48bf46ec52a894",
+        measurementId: "G-QM8E3BEZPX"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      window.db = db;
+      window.firestoreTools = { collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc, query, where, orderBy };
+    </script>
 
     <script src="admin.js"></script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxe Vision | Cílios & Art</title>
+    <title>Alice Russo Studio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="style.css">
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init({
+            publicKey: "dNW2oNECGBw-4zMbF", // Sua chave pública do EmailJS
+          });
+       })();
+    </script>
 </head>
 <body>
     <button id="theme-toggle" aria-label="Alternar Tema"><i class="fa-solid fa-moon"></i></button>
@@ -19,10 +28,12 @@
     <a href="#agendamento" class="floating-btn">Agendar <i class="fa-solid fa-calendar-check"></i></a>
 
     <header class="hero fade-in">
-        <div class="hero-content">
-            <h1>O Poder do Seu Olhar</h1>
-            <p>E a sutileza da sua expressão artística. Descubra o luxo do autocuidado.</p>
-            <a href="#agendamento" class="btn-primary">Reserve seu Horário</a>
+        <div class="hero-container">
+            <div class="hero-text">
+                <h1>Alice Russo <br><span>Studio</span></h1>
+                <p>O poder do seu olhar e a sutileza da sua expressão artística. Descubra o verdadeiro luxo do autocuidado.</p>
+                <a href="#agendamento" class="btn-primary">Reserve seu Horário</a>
+            </div>
         </div>
     </header>
 
@@ -121,7 +132,6 @@
                 <div class="form-group">
                     <label>Data de Preferência</label>
                     <input type="hidden" id="data" required>
-                    
                     <div id="date-scroll" class="date-scroll-container">
                         </div>
                 </div>
@@ -140,8 +150,29 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 Luxe Vision. Todos os direitos reservados.</p>
+        <p>&copy; 2026 Alice Russo Studio. Todos os direitos reservados.</p>
     </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAjtgSso9KxdSR8aJmavBH-6KG8ZGzBZMY",
+        authDomain: "alice-russo.firebaseapp.com",
+        projectId: "alice-russo",
+        storageBucket: "alice-russo.firebasestorage.app",
+        messagingSenderId: "350151712509",
+        appId: "1:350151712509:web:14cc9ecb48bf46ec52a894",
+        measurementId: "G-QM8E3BEZPX"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      window.db = db;
+      window.firestoreTools = { collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc, query, where, orderBy };
+    </script>
 
     <script src="script.js"></script>
 </body>
