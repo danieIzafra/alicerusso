@@ -4,8 +4,8 @@
 :root {
     /* Paleta Light Theme (Nude / Rosé Gold) */
     --bg-color: #fdfafb; 
-    --text-color: #3e2a35; /* Marrom escuro/Ameixa para leitura */
-    --accent: #d88c9a; /* Rosé Gold elegante */
+    --text-color: #3e2a35;
+    --accent: #d88c9a;
     --accent-hover: #c47584;
     
     /* Efeito de Vidro (Light) */
@@ -20,10 +20,10 @@
 }
 
 .dark-theme {
-    /* Paleta Dark Theme (Plum / Magenta Tecnológico) */
-    --bg-color: #120b0e; /* Tom quase preto com fundo violeta/ameixa */
+    /* Paleta Dark Theme (Plum / Magenta) */
+    --bg-color: #120b0e;
     --text-color: #fcf5f7;
-    --accent: #e8a5b1; /* Rosé Gold Brilhante/Neon suave */
+    --accent: #e8a5b1;
     --accent-hover: #ffc4d0;
     
     /* Efeito de Vidro (Dark) */
@@ -39,7 +39,7 @@
     box-sizing: border-box;
 }
 
-/* Fundo com Esferas Animadas (Tecnologia & Beleza) */
+/* Fundo com Esferas Animadas */
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -51,7 +51,6 @@ body {
     min-height: 100vh;
 }
 
-/* Esferas de Luz Fluídas (Backdrop) */
 body::before, body::after {
     content: '';
     position: fixed;
@@ -73,14 +72,14 @@ body::before {
 body::after {
     width: 450px; 
     height: 450px;
-    background: #e1c0c8; /* Tom perolado */
+    background: #e1c0c8;
     bottom: -10%; 
     right: -5%;
     animation-delay: -6s;
 }
 
 .dark-theme body::after {
-    background: #3a1c28; /* Profundidade no modo escuro */
+    background: #3a1c28;
 }
 
 @keyframes float {
@@ -176,7 +175,7 @@ h1, h2, h3 {
 }
 
 /* ==========================================
-   Hero Section (Alice Russo Studio - Minimalista)
+   Hero Section
    ========================================== */
 .hero {
     min-height: 100vh;
@@ -197,7 +196,6 @@ h1, h2, h3 {
     z-index: 1; 
 }
 
-/* Caixa de Texto Glassmorphism (Centralizada) */
 .hero-text {
     background: var(--glass-bg);
     padding: 60px 50px;
@@ -231,15 +229,93 @@ h1, h2, h3 {
     max-width: 600px;
 }
 
-/* Responsividade: Celulares */
-@media (max-width: 768px) {
-    .hero {
-        padding-top: 60px;
-    }
-    
-    .hero-text {
-        padding: 40px 25px;
-    }
+/* ==========================================
+   NOVO: Segurança e Biossegurança (Selos)
+   ========================================== */
+.trust-section {
+    padding: 60px 20px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.trust-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+.trust-badge {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 25px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.trust-badge:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+.trust-badge i {
+    font-size: 2.2rem;
+    color: var(--accent);
+}
+.trust-badge h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--accent);
+    font-weight: 600;
+    font-family: var(--font-heading);
+}
+.trust-badge p {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* ==========================================
+   NOVO: Instagram CTA (Chamada)
+   ========================================== */
+.instagram-section {
+    padding: 40px 20px;
+}
+.instagram-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 50px 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: var(--glass-shadow);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+.instagram-container:hover {
+    transform: scale(1.02);
+    border-color: var(--accent);
+}
+.instagram-icon {
+    font-size: 3rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+.instagram-container h2 {
+    font-size: 2.2rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+    font-family: var(--font-heading);
+}
+.instagram-container p {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin-bottom: 25px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Seções Globais */
@@ -255,8 +331,8 @@ section {
     margin-bottom: 50px;
 }
 
-/* Componentes Glassmorphism (Tabs, Forms, Sidebar do Admin) */
-.tabs-container, .booking-container, .admin-sidebar {
+/* Componentes Glassmorphism (Tabs, Forms) */
+.tabs-container, .booking-container {
     background: var(--glass-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -418,7 +494,7 @@ select:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .date-card.active .day-name, .date-card.active .day-num { color: #fff; }
 
-/* Time Grid (Radio Buttons) */
+/* Time Grid */
 .time-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -453,4 +529,11 @@ footer {
     opacity: 0.7;
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
+}
+
+/* Responsividade Geral */
+@media (max-width: 768px) {
+    .hero { padding-top: 60px; }
+    .hero-text { padding: 40px 25px; }
+    .trust-section, .instagram-section { padding-top: 20px; }
 }
