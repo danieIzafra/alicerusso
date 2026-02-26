@@ -389,13 +389,26 @@ section {
     background-color: var(--glass-highlight);
 }
 
-/* Galeria */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+/* ==========================================
+   Galeria (Scroll Horizontal)
+   ========================================== */
+.gallery-scroll {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
 }
+
+.gallery-scroll::-webkit-scrollbar { height: 8px; }
+.gallery-scroll::-webkit-scrollbar-thumb { 
+    background-color: var(--accent); 
+    border-radius: 10px; 
+}
+
 .gallery-item {
+    flex: 0 0 160px; /* Define a largura fixa e pequena das fotos */
     border-radius: 12px;
     overflow: hidden;
     position: relative;
@@ -403,12 +416,14 @@ section {
     aspect-ratio: 4/5;
     box-shadow: var(--glass-shadow);
 }
+
 .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
+
 .gallery-item:hover img {
     transform: scale(1.08);
 }

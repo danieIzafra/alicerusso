@@ -126,6 +126,9 @@ setTimeout(() => {
     // ==========================================
     // 4. Gerenciamento de Galeria (com Upload ImgBB)
     // ==========================================
+    // ==========================================
+    // 4. Gerenciamento de Galeria
+    // ==========================================
     async function renderizarGaleria() {
         const lista = document.getElementById('lista-galeria-admin');
         const snap = await getDocs(collection(db, "galeria"));
@@ -140,9 +143,9 @@ setTimeout(() => {
             lista.innerHTML += `
                 <div class="gallery-admin-card">
                     <img src="${d.data().url}" alt="Galeria">
-                    <div class="delete-overlay">
-                        <button class="btn-danger" onclick="deletarImagem('${d.id}')"><i class="fa-solid fa-trash"></i> Remover</button>
-                    </div>
+                    <button class="btn-remove-img" onclick="deletarImagem('${d.id}')" title="Remover Imagem">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
             `;
         });
