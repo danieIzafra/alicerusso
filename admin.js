@@ -123,6 +123,9 @@ setTimeout(() => {
     // ==========================================
     // 4. Gerenciamento de Galeria
     // ==========================================
+    // ==========================================
+    // 4. Gerenciamento de Galeria (com Upload ImgBB)
+    // ==========================================
     async function renderizarGaleria() {
         const lista = document.getElementById('lista-galeria-admin');
         const snap = await getDocs(collection(db, "galeria"));
@@ -145,20 +148,58 @@ setTimeout(() => {
         });
     }
 
+    // NOVA LÓGICA DE UPLOAD
     document.getElementById('form-galeria').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const url = document.getElementById('galeria-url').value;
+        
+        // 1. Pega o arquivo de imagem selecionado pelo usuário
+        const fileInput = document.getElementById('galeria-file');
+        const file = fileInput.files[0];
+        if (!file) return;
 
         const btnSubmit = e.target.querySelector('button[type="submit"]');
         btnSubmit.disabled = true;
-        btnSubmit.textContent = "Salvando...";
+        btnSubmit.textContent = "Enviando imagem...";
 
-        await addDoc(collection(db, "galeria"), { url });
+        try {
+            // 2. Prepara a imagem para enviar ao ImgBB
+            const formData = new FormData();
+            formData.append("image", file);
 
-        btnSubmit.disabled = false;
-        btnSubmit.textContent = "Salvar na Nuvem";
-        e.target.reset();
-        renderizarGaleria();
+            // SUA CHAVE DO IMGBB AQUI:
+            const apiKey = "55938bbca40445eee51a7bc9104163e6"; 
+            
+            // 3. Faz o Upload para o ImgBB
+            const respostaImgbb = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+                method: "POST",
+                body: formData
+            });
+            const dadosImgbb = await respostaImgbb.json();
+
+            // 4. Se o upload deu certo, salva a URL gerada no Firebase
+            if (dadosImgbb.success) {
+                btnSubmit.textContent = "Salvando na nuvem...";
+                const imageUrl = dadosImgbb.data.url; // Link direto da imagem
+
+                await addDoc(collection(db, "galeria"), { url: imageUrl });
+
+                btnSubmit.textContent = "Upload Concluído!";
+                e.target.reset();
+                renderizarGaleria(); // Atualiza a grade
+            } else {
+                alert("Erro ao enviar a imagem para o servidor.");
+            }
+
+        } catch (error) {
+            console.error("Erro no upload:", error);
+            alert("Erro na conexão. Tente novamente.");
+        } finally {
+            // Restaura o botão após 2 segundos
+            setTimeout(() => {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = "Fazer Upload e Salvar";
+            }, 2000);
+        }
     });
 
     window.deletarImagem = async function(id) {
