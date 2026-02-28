@@ -132,7 +132,7 @@ setTimeout(() => {
             formData.append("image", file);
             
             // ATENÇÃO: COLOQUE SUA CHAVE DA API DO IMGBB AQUI!
-            const apiKey = "SUA_CHAVE_AQUI"; 
+            const apiKey = "55938bbca40445eee51a7bc9104163e6"; 
             
             const respostaImgbb = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, { 
                 method: "POST", 
