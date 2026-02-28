@@ -9,157 +9,36 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
     
     <style>
-        .admin-header {
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--glass-border);
-            margin-bottom: 40px;
-        }
+        .admin-header { padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--glass-border); margin-bottom: 40px; }
         .admin-header h1 { color: var(--accent); }
-        
-        .admin-layout {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px 80px;
-            z-index: 1; /* Para ficar acima das esferas do fundo */
-            position: relative;
-        }
-
+        .admin-layout { display: grid; grid-template-columns: 250px 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 0 20px 80px; z-index: 1; position: relative; }
         .admin-menu { list-style: none; }
         .admin-menu li { margin-bottom: 10px; }
-
-        .admin-menu button {
-            width: 100%;
-            text-align: left;
-            padding: 12px 15px;
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-color);
-            font-family: var(--font-body);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-
-        .admin-menu button.active, .admin-menu button:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--glass-highlight);
-        }
-
+        .admin-menu button { width: 100%; text-align: left; padding: 12px 15px; background: transparent; border: 1px solid transparent; color: var(--text-color); font-family: var(--font-body); cursor: pointer; border-radius: 8px; transition: all 0.3s; }
+        .admin-menu button.active, .admin-menu button:hover { border-color: var(--accent); color: var(--accent); background: var(--glass-highlight); }
         .admin-panel { display: none; animation: fadeIn 0.4s ease; }
         .admin-panel.active { display: block; }
 
-        .manage-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            border: 1px solid var(--glass-border);
-            margin-bottom: 10px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
+        .manage-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid var(--glass-border); margin-bottom: 10px; background: var(--glass-bg); backdrop-filter: blur(10px); border-radius: 12px; }
+        .btn-danger { background: transparent; color: #d9534f; border: 1px solid #d9534f; padding: 8px 15px; cursor: pointer; border-radius: 30px; transition: all 0.3s; }
+        .btn-danger:hover { background: #d9534f; color: #120b0e; box-shadow: 0 4px 10px rgba(217, 83, 79, 0.3); }
 
-        .btn-danger {
-            background: transparent;
-            color: #d9534f;
-            border: 1px solid #d9534f;
-            padding: 8px 15px;
-            cursor: pointer;
-            border-radius: 30px;
-            transition: all 0.3s;
-        }
-        .btn-danger:hover {
-            background: #d9534f;
-            color: #fff;
-            box-shadow: 0 4px 10px rgba(217, 83, 79, 0.3);
-        }
+        .gallery-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; }
+        .gallery-admin-card { position: relative; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; aspect-ratio: 4/5; box-shadow: var(--glass-shadow); }
+        .gallery-admin-card img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-remove-img { position: absolute; top: 8px; right: 8px; background: rgba(217, 83, 79, 0.9); color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; z-index: 10; }
+        .btn-remove-img:hover { transform: scale(1.1); background: #d9534f; }
 
-        /* Grid da Galeria no Admin */
-        .gallery-admin-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-        }
-        
-        .gallery-admin-card {
-            position: relative;
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            overflow: hidden;
-            aspect-ratio: 4/5;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        
-        .gallery-admin-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Novo Botão de X para remover imagem */
-        .btn-remove-img {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(217, 83, 79, 0.9);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            z-index: 10;
-        }
-        .btn-remove-img:hover {
-            transform: scale(1.1);
-            background: #d9534f;
-        }
-
-        .agendamento-card {
-            border-left: 4px solid var(--accent);
-            padding: 15px 20px;
-        }
-
-        .day-checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--glass-bg);
-            padding: 10px 15px;
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-        .day-checkbox-label:hover {
-            border-color: var(--accent);
-        }
-
-        @media (max-width: 768px) {
-            .admin-layout { grid-template-columns: 1fr; }
-        }
+        .agendamento-card { border-left: 4px solid var(--accent); }
+        .day-checkbox-label { display: flex; align-items: center; gap: 8px; background: var(--glass-bg); padding: 10px 15px; border: 1px solid var(--glass-border); border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem; }
+        .day-checkbox-label:hover { border-color: var(--accent); }
+        @media (max-width: 768px) { .admin-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <button id="theme-toggle" aria-label="Alternar Tema"><i class="fa-solid fa-moon"></i></button>
-
     <header class="admin-header">
         <h1>Alice Russo Studio | Admin</h1>
         <p>Painel de Gerenciamento na Nuvem</p>
@@ -169,8 +48,8 @@
         <aside class="admin-sidebar">
             <ul class="admin-menu">
                 <li><button class="active" onclick="switchAdminTab('panel-agendamentos', this)"><i class="fa-solid fa-calendar-check"></i> Agendamentos</button></li>
-                <li><button onclick="switchAdminTab('panel-servicos', this)"><i class="fa-solid fa-list"></i> Gerenciar Serviços</button></li>
-                <li><button onclick="switchAdminTab('panel-galeria', this)"><i class="fa-solid fa-images"></i> Gerenciar Galeria</button></li>
+                <li><button onclick="switchAdminTab('panel-servicos', this)"><i class="fa-solid fa-list"></i> Serviços</button></li>
+                <li><button onclick="switchAdminTab('panel-galeria', this)"><i class="fa-solid fa-images"></i> Galeria</button></li>
                 <li><button onclick="switchAdminTab('panel-horarios', this)"><i class="fa-solid fa-clock"></i> Grade & Dias</button></li>
                 <li><a href="index.html" class="btn-primary full-width" style="text-align: center; margin-top: 20px; font-size: 0.8rem;"><i class="fa-solid fa-arrow-left"></i> Ver Site</a></li>
             </ul>
@@ -186,27 +65,11 @@
                 <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Adicionar Serviço</h2>
                 <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
                     <form id="form-servico">
-                        <div class="form-group">
-                            <label>Categoria</label>
-                            <select id="servico-categoria" required>
-                                <option value="cilios">Extensão de Cílios</option>
-                                <option value="lifting">Lash Lifting & Sobrancelhas</option>
-                                <option value="fineline">Tatuagem Fineline</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Nome do Serviço</label>
-                            <input type="text" id="servico-nome" required placeholder="Ex: Volume Russo">
-                        </div>
+                        <div class="form-group"><label>Categoria</label><select id="servico-categoria" required><option value="cilios">Extensão de Cílios</option><option value="lifting">Lash Lifting & Sobrancelhas</option><option value="fineline">Tatuagem Fineline</option></select></div>
+                        <div class="form-group"><label>Nome do Serviço</label><input type="text" id="servico-nome" required></div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div class="form-group">
-                                <label>Duração (ex: 2h ou 45m)</label>
-                                <input type="text" id="servico-duracao" required placeholder="Ex: 2h 30m">
-                            </div>
-                            <div class="form-group">
-                                <label>Valor</label>
-                                <input type="text" id="servico-valor" required placeholder="Ex: R$ 250">
-                            </div>
+                            <div class="form-group"><label>Duração (ex: 2h 30m)</label><input type="text" id="servico-duracao" required></div>
+                            <div class="form-group"><label>Valor</label><input type="text" id="servico-valor" required></div>
                         </div>
                         <button type="submit" class="btn-primary">Salvar na Nuvem</button>
                     </form>
@@ -219,10 +82,7 @@
                 <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Adicionar Imagem</h2>
                 <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
                     <form id="form-galeria">
-                        <div class="form-group">
-                            <label>Escolha uma foto do seu dispositivo</label>
-                            <input type="file" id="galeria-file" accept="image/*" required style="padding: 10px; cursor: pointer;">
-                        </div>
+                        <div class="form-group"><label>Escolha uma foto</label><input type="file" id="galeria-file" accept="image/*" required style="cursor:pointer; padding: 10px;"></div>
                         <button type="submit" class="btn-primary">Fazer Upload e Salvar</button>
                     </form>
                 </div>
@@ -233,25 +93,13 @@
             <section id="panel-horarios" class="admin-panel">
                 <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Dias de Funcionamento</h2>
                 <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
-                    <p style="margin-bottom: 15px; opacity: 0.8; font-size: 0.9rem;">Selecione os dias da semana em que o estúdio atende ao público.</p>
                     <div id="dias-trabalho-admin" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;"></div>
                     <button onclick="salvarDiasTrabalho()" class="btn-primary">Atualizar Dias</button>
                 </div>
-
-                <hr style="border: none; border-top: 1px solid var(--glass-border); margin: 40px 0;">
-
-                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Adicionar Horário na Grade</h2>
+                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Grade de Horários Base</h2>
                 <div class="booking-container" style="margin: 0 0 40px 0; max-width: 100%;">
-                    <form id="form-horario">
-                        <div class="form-group">
-                            <label>Novo Horário Base</label>
-                            <input type="time" id="novo-horario" required>
-                        </div>
-                        <button type="submit" class="btn-primary">Salvar na Nuvem</button>
-                    </form>
+                    <form id="form-horario"><div class="form-group"><label>Novo Horário</label><input type="time" id="novo-horario" required></div><button type="submit" class="btn-primary">Adicionar</button></form>
                 </div>
-
-                <h2 class="section-title" style="margin-bottom: 20px; text-align: left;">Grade Atual</h2>
                 <div id="lista-horarios-admin" style="display: flex; gap: 15px; flex-wrap: wrap;"></div>
             </section>
         </main>
@@ -260,24 +108,11 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyAjtgSso9KxdSR8aJmavBH-6KG8ZGzBZMY",
-        authDomain: "alice-russo.firebaseapp.com",
-        projectId: "alice-russo",
-        storageBucket: "alice-russo.firebasestorage.app",
-        messagingSenderId: "350151712509",
-        appId: "1:350151712509:web:14cc9ecb48bf46ec52a894",
-        measurementId: "G-QM8E3BEZPX"
-      };
-
+      const firebaseConfig = { apiKey: "AIzaSyAjtgSso9KxdSR8aJmavBH-6KG8ZGzBZMY", authDomain: "alice-russo.firebaseapp.com", projectId: "alice-russo", storageBucket: "alice-russo.firebasestorage.app", messagingSenderId: "350151712509", appId: "1:350151712509:web:14cc9ecb48bf46ec52a894", measurementId: "G-QM8E3BEZPX" };
       const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      window.db = db;
+      window.db = getFirestore(app);
       window.firestoreTools = { collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc, query, where, orderBy };
     </script>
-
     <script src="admin.js"></script>
 </body>
 </html>

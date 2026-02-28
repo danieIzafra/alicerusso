@@ -8,28 +8,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
-       (function(){
-          emailjs.init({
-            publicKey: "dNW2oNECGBw-4zMbF", // Sua chave pública do EmailJS
-          });
-       })();
+       (function(){ emailjs.init({ publicKey: "dNW2oNECGBw-4zMbF" }); })();
     </script>
 </head>
 <body>
-    <button id="theme-toggle" aria-label="Alternar Tema"><i class="fa-solid fa-moon"></i></button>
-
     <a href="#agendamento" class="floating-btn">Agendar <i class="fa-solid fa-calendar-check"></i></a>
 
     <header class="hero fade-in">
-        <div class="hero-container">
-            <div class="hero-text">
+        <div class="hero-container hero-branding-card">
+            <div class="hero-profile-holder">
+                <div class="profile-frame">
+                    <img src="alice.png" alt="Alice Russo" class="alice-photo-integrated">
+                </div>
+            </div>
+            <div class="hero-text-content">
                 <h1>Alice Russo <br><span>Studio</span></h1>
                 <p>O poder do seu olhar e a sutileza da sua expressão artística. Descubra o verdadeiro luxo do autocuidado.</p>
                 <a href="#agendamento" class="btn-primary">Reserve seu Horário</a>
@@ -65,61 +62,15 @@
 
     <section id="servicos" class="services-section fade-in">
         <h2 class="section-title">Nossos Serviços</h2>
-        
         <div class="tabs-container">
             <div class="tab-buttons">
                 <button class="tab-btn active" onclick="openTab(event, 'cilios')">Extensão de Cílios</button>
-                <button class="tab-btn" onclick="openTab(event, 'lifting')">Lash Lifting & Sobrancelhas</button>
+                <button class="tab-btn" onclick="openTab(event, 'lifting')">Lash Lifting</button>
                 <button class="tab-btn" onclick="openTab(event, 'fineline')">Tatuagem Fineline</button>
             </div>
-
-            <div id="cilios" class="tab-content active">
-                <div class="table-responsive">
-                    <table class="luxury-table">
-                        <thead>
-                            <tr>
-                                <th>Serviço</th>
-                                <th>Duração</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-cilios">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="lifting" class="tab-content">
-                <div class="table-responsive">
-                    <table class="luxury-table">
-                        <thead>
-                            <tr>
-                                <th>Serviço</th>
-                                <th>Duração</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-lifting">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="fineline" class="tab-content">
-                <div class="table-responsive">
-                    <table class="luxury-table">
-                        <thead>
-                            <tr>
-                                <th>Serviço</th>
-                                <th>Duração / Tam.</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-fineline">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
+            <div id="cilios" class="tab-content active"><div class="table-responsive"><table class="luxury-table"><tbody id="tbody-cilios"></tbody></table></div></div>
+            <div id="lifting" class="tab-content"><div class="table-responsive"><table class="luxury-table"><tbody id="tbody-lifting"></tbody></table></div></div>
+            <div id="fineline" class="tab-content"><div class="table-responsive"><table class="luxury-table"><tbody id="tbody-fineline"></tbody></table></div></div>
         </div>
     </section>
 
@@ -134,8 +85,7 @@
 
     <section id="galeria" class="gallery-section fade-in">
         <h2 class="section-title">Galeria de Arte</h2>
-        <div class="gallery-scroll" id="gallery-grid-client">
-            </div>
+        <div class="gallery-scroll" id="gallery-grid-client"></div>
     </section>
 
     <section id="agendamento" class="booking-section fade-in">
@@ -143,12 +93,11 @@
             <h2 class="section-title">Agende sua Experiência</h2>
             <form id="booking-form">
                 <div class="form-group">
-                    <label for="nome">Seu Nome</label>
+                    <label>Seu Nome</label>
                     <input type="text" id="nome" required placeholder="Ex: Maria Silva">
                 </div>
-                
                 <div class="form-group">
-                    <label for="categoria-agendamento">O que você deseja fazer?</label>
+                    <label>O que você deseja fazer?</label>
                     <select id="categoria-agendamento" required>
                         <option value="" disabled selected>Escolha uma categoria...</option>
                         <option value="cilios">Extensão de Cílios</option>
@@ -156,59 +105,39 @@
                         <option value="fineline">Tatuagem Fineline</option>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label for="servico-agendamento">Selecione o Serviço</label>
+                    <label>Selecione o Serviço</label>
                     <select id="servico-agendamento" required disabled>
                         <option value="" disabled selected>Selecione uma categoria primeiro...</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>Data de Preferência</label>
                     <input type="hidden" id="data" required>
-                    <div id="date-scroll" class="date-scroll-container">
-                        </div>
+                    <div id="date-scroll" class="date-scroll-container"></div>
                 </div>
-
                 <div class="form-group">
                     <label>Horários Disponíveis</label>
                     <div class="time-grid" id="grid-horarios-cliente">
-                        <p style="font-size: 0.85rem; opacity: 0.7; grid-column: 1/-1;">Selecione um serviço e uma data para ver os horários disponíveis.</p>
+                        <p style="font-size: 0.85rem; opacity: 0.7; grid-column: 1/-1;">Selecione um serviço e data.</p>
                     </div>
                 </div>
-
                 <button type="submit" class="btn-primary full-width">Confirmar Solicitação</button>
                 <p id="form-status" class="form-status"></p>
             </form>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2026 Alice Russo Studio. Todos os direitos reservados.</p>
-    </footer>
+    <footer><p>&copy; 2026 Alice Russo Studio. Todos os direitos reservados.</p></footer>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyAjtgSso9KxdSR8aJmavBH-6KG8ZGzBZMY",
-        authDomain: "alice-russo.firebaseapp.com",
-        projectId: "alice-russo",
-        storageBucket: "alice-russo.firebasestorage.app",
-        messagingSenderId: "350151712509",
-        appId: "1:350151712509:web:14cc9ecb48bf46ec52a894",
-        measurementId: "G-QM8E3BEZPX"
-      };
-
+      const firebaseConfig = { apiKey: "AIzaSyAjtgSso9KxdSR8aJmavBH-6KG8ZGzBZMY", authDomain: "alice-russo.firebaseapp.com", projectId: "alice-russo", storageBucket: "alice-russo.firebasestorage.app", messagingSenderId: "350151712509", appId: "1:350151712509:web:14cc9ecb48bf46ec52a894", measurementId: "G-QM8E3BEZPX" };
       const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      window.db = db;
+      window.db = getFirestore(app);
       window.firestoreTools = { collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc, query, where, orderBy };
     </script>
-
     <script src="script.js"></script>
 </body>
 </html>
